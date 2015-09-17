@@ -1,7 +1,6 @@
 import processing.serial.*;
 import java.util.Arrays;
 
-String portName = "/dev/ttyUSB0";
 Serial port = null;
 
 PFont titleFont;
@@ -15,8 +14,10 @@ Lane lanes[];
 
 void setup(){
   if(!debug){
-    port = new Serial(this, portName, 9600);
-    println("Connected to " + portName);
+    String ports[] = Serial.list();
+    printArray(ports);
+    port = new Serial(this, ports[ports.length-1], 9600);
+    println("Connected to " + ports[ports.length-1]);
   }
   size(1000, 500);
   frame.setResizable(true);
