@@ -1,11 +1,17 @@
 import processing.serial.*;
+import java.util.Arrays;
 
 String portName = "/dev/ttyUSB0";
 Serial port = null;
 
-PFont titleFont = createFont("RazerRegular", 100);
+PFont titleFont;
 
-boolean debug = true;
+boolean debug = false;
+
+int PADDING_LEFT = 10;
+
+Lane lanes[];
+
 
 void setup(){
   if(!debug){
@@ -14,6 +20,13 @@ void setup(){
   }
   size(1000, 500);
   frame.setResizable(true);
+  titleFont = loadFont("Carlito-Bold-48.vlw");
+  
+  lanes = new Lane[4];
+  lanes[0] = new Lane("Lane 1", 0, color(255, 24, 0), color(255), this);
+  lanes[1] = new Lane("Lane 2", 1, color(255, 171, 0), color(0), this);
+  lanes[2] = new Lane("Lane 3", 2, color(0, 220, 49), color(255), this);
+  lanes[3] = new Lane("Lane 4", 3, color(10, 67, 208), color(255), this);
 }
 
 String readMessage(Serial port){
@@ -47,8 +60,8 @@ double[] getTimes(String message){
 void drawLane(int index, 
               String name,
               double time,
-              color textColor,
-              color backgroundColor){
+              color backgroundColor,
+              color textColor){
   textFont(titleFont);
   textAlign(LEFT, CENTER);
   
@@ -62,7 +75,7 @@ void drawLane(int index,
   
   fill(textColor);
   noStroke();
-  text(name, 0, yCoordinate);
+  text(name, PADDING_LEFT, yCoordinate);
   text(Double.toString(time) + " s", width/2, yCoordinate);
 };
 
@@ -75,12 +88,19 @@ void draw(){
   String message = readMessage(port);
   double[] times = getTimes(message);
   if (times != null){
-    for (int i = 0; i < times.length; i++)
+    for (int i = 0; i < lanes.length; i++) {
       println(times[i]);
+      lanes[i].setTime(times[i]);
+    }
+    Arrays.sort(lanes);
     drawBackground();
-    drawLane(0, "White", times[0], color(0), color(255));
-    drawLane(1, "Black", times[1], color(255), color(0));
-    drawLane(2, "Yellow", times[2], color(122, 41, 107), color(255, 255, 0));
-    drawLane(3, "Blue", times[3], color(255, 246, 170), color(0, 0, 255));
+    for (int i = 0; i < lanes.length; i++) {
+      lanes[i].draw(titleFont, i);
+    }
   }
+}
+
+Lane[] sortLanes (Lane[] lanes) {
+  Lane[] newLanes = new Lane[4];
+  return newLanes;
 }
