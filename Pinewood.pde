@@ -25,7 +25,7 @@ void setup(){
   lanes = new Lane[4];
   lanes[0] = new Lane("Lane 1", 0, color(255, 24, 0), color(255), this);
   lanes[1] = new Lane("Lane 2", 1, color(255, 171, 0), color(0), this);
-  lanes[2] = new Lane("Lane 3", 2, color(0, 220, 49), color(255), this);
+  lanes[2] = new Lane("Lane 3", 2, color(0, 200, 49), color(0), this);
   lanes[3] = new Lane("Lane 4", 3, color(10, 67, 208), color(255), this);
 }
 
@@ -87,20 +87,16 @@ void drawBackground(){
 void draw(){
   String message = readMessage(port);
   double[] times = getTimes(message);
+  // Remember that the lanes might not be in track-order.
   if (times != null){
     for (int i = 0; i < lanes.length; i++) {
       println(times[i]);
-      lanes[i].setTime(times[i]);
+      lanes[i].setTime(times[lanes[i].getIndex()]);
     }
     Arrays.sort(lanes);
-    drawBackground();
-    for (int i = 0; i < lanes.length; i++) {
-      lanes[i].draw(titleFont, i);
-    }
   }
-}
-
-Lane[] sortLanes (Lane[] lanes) {
-  Lane[] newLanes = new Lane[4];
-  return newLanes;
+  drawBackground();
+  for (int i = 0; i < lanes.length; i++) {
+    lanes[i].draw(titleFont, i);
+  }
 }

@@ -23,6 +23,10 @@ class Lane implements Comparable<Lane> {
     return time;
   }
   
+  public int getIndex(){
+    return index;
+  }
+  
   public void draw (PFont titleFont, int finishingPosition){
     parent.textFont(titleFont);
     parent.textAlign(PApplet.LEFT, PApplet.CENTER);
@@ -37,10 +41,25 @@ class Lane implements Comparable<Lane> {
     
     parent.fill(textColor);
     parent.text(name, 20, yCoordinate);
-    parent.text(Double.toString(time) + " s (" + finishingPosition + ")", parent.width/2, yCoordinate);
+    boolean didFinish = this.getTime() != 0;
+    String positionString = didFinish ? positionToString(finishingPosition) : "No Finish";
+    String timeString = didFinish ? Double.toString(time) + "s  -  " : "";
+    parent.text(timeString + positionString, parent.width/2, yCoordinate);
   }
   
   public int compareTo(Lane other) {
+    if (this.getTime() == 0) return 1;
+    if (other.getTime() == 0) return -1;
     return this.getTime() < other.getTime() ? -1 : 1;
+  }
+  
+  static String positionToString(int position) {
+    switch(position) {
+      case 0: return "Winner!";
+      case 1: return "Second";
+      case 2: return "Third";
+      case 3: return "Fourth";
+      default: return "Unknown";
+    }
   }
 }
