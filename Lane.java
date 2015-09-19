@@ -42,9 +42,10 @@ class Lane implements Comparable<Lane> {
     parent.fill(textColor);
     parent.text(name, 20, yCoordinate);
     boolean didFinish = this.getTime() != 0;
-    String positionString = didFinish ? positionToString(finishingPosition) : "No Finish";
-    String timeString = didFinish ? Double.toString(time) + "s  -  " : "";
-    parent.text(timeString + positionString, parent.width/2, yCoordinate);
+    String positionString = didFinish ? positionToString(finishingPosition) : "";
+    String timeString = didFinish ? Double.toString(time) + "s" : "No Finish";
+    parent.text(timeString, parent.width/3 + 80, yCoordinate);
+    parent.text(positionString, 3*parent.width/4, yCoordinate);
   }
   
   public int compareTo(Lane other) {
@@ -55,10 +56,10 @@ class Lane implements Comparable<Lane> {
   
   static String positionToString(int position) {
     switch(position) {
-      case 0: return "Winner!";
-      case 1: return "Second";
-      case 2: return "Third";
-      case 3: return "Fourth";
+      case 0: return "1st";
+      case 1: return "2nd";
+      case 2: return "3rd";
+      case 3: return "4th";
       default: return "Unknown";
     }
   }

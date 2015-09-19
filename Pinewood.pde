@@ -19,9 +19,9 @@ void setup(){
     port = new Serial(this, ports[ports.length-1], 9600);
     println("Connected to " + ports[ports.length-1]);
   }
-  size(1000, 500);
+  size(1100, 768);
   frame.setResizable(true);
-  titleFont = loadFont("Carlito-Bold-48.vlw");
+  titleFont = createFont("Carlito Bold", 100);
   
   lanes = new Lane[4];
   lanes[0] = new Lane("Lane 1", 0, color(255, 24, 0), color(255), this);
